@@ -1,0 +1,9 @@
+# How often (in ticks) to update the hidden block's location
+# 20 ticks / second
+update-interval: 5
+
+# Blocks away a player should be before they no longer receive updates
+update-distance: 170
+
+# If set true logs player use
+verbose-logging: false

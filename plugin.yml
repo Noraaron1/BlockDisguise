@@ -1,0 +1,8 @@
+name: BlockDisguise
+main: com.ne0nx3r0.blockdisguise.BlockDisguise
+version: '0.3.1'
+database: false
+description: Hides you as a block!
+commands:
+    bd:
+      description: Block Disguise
