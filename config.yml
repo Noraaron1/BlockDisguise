@@ -7,3 +7,6 @@ update-distance: 170
 
 # If set true logs player use
 verbose-logging: false
+
+# Whether to render the player invisible, or let another plugin handle it
+make-players-invisible: true

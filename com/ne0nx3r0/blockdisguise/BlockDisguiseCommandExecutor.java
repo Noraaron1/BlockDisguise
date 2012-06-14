@@ -80,8 +80,10 @@ public class BlockDisguiseCommandExecutor implements CommandExecutor {
                     }
                 }
                 
-                for(Player pHideFrom: p.getServer().getOnlinePlayers()){
-                    pHideFrom.showPlayer(player);
+                if(p.MAKE_PLAYERS_INVISIBLE){
+                    for(Player pHideFrom: p.getServer().getOnlinePlayers()){
+                        pHideFrom.showPlayer(player);
+                    }
                 }
             }
         }else{

@@ -21,6 +21,7 @@ public class BlockDisguise extends JavaPlugin{
     public static ArrayList<String> pending;
     public static Map<String,Block> lastUpdate;   
     public static int MAX_UPDATE_DISTANCE;
+    public static boolean MAKE_PLAYERS_INVISIBLE;
     
     @Override
     public void onEnable(){    
@@ -37,7 +38,8 @@ public class BlockDisguise extends JavaPlugin{
         }
         
         MAX_UPDATE_DISTANCE = getConfig().getInt("update-distance") ^ 2;
-        
+        MAKE_PLAYERS_INVISIBLE = getConfig().getBoolean("make-players-invisible",true);
+
 // Setup listeners
         Bukkit.getPluginManager().registerEvents(new BlockDisguisePlayerListener(this), this);
     
