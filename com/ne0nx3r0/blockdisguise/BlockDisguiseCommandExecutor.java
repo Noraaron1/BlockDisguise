@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 public class BlockDisguiseCommandExecutor implements CommandExecutor {
     private BlockDisguise p;
+    public static String USAGE = "Usage: /bd <blockId|blockName> [blockData]";
 
     public BlockDisguiseCommandExecutor(BlockDisguise plugin){
         this.p = plugin;
@@ -26,6 +27,10 @@ public class BlockDisguiseCommandExecutor implements CommandExecutor {
         String sPlayer = player.getName();
         
         if(player.hasPermission("BlockDisguise.disguise")){
+            if(args.length < 1){
+                p.msg(player,USAGE);
+            }
+            
             if(!BlockDisguise.enabledFor.containsKey(sPlayer)){
                 Integer[] iBlockData = new Integer[2];
 
@@ -43,11 +48,11 @@ public class BlockDisguiseCommandExecutor implements CommandExecutor {
                 
                 iBlockData[0] = m.getId();
                 
-                if(args.length>1){
+                if(args.length > 1){
                     try{
                         iBlockData[1] = Integer.parseInt(args[1]);
                     }catch(Exception e){              
-                        p.msg(player, ChatColor.RED+"Syntax: /bd <blockId> [blockData]");
+                        p.msg(player, USAGE);
                         return true;
                     }
                 }else{
