@@ -1,6 +1,5 @@
 package com.ne0nx3r0.blockdisguise;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -26,14 +25,14 @@ public class BlockDisguisePlayerListener implements Listener{
     
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent e){
-        for(String sPlayer : p.enabledFor.keySet()){
+        for(String sPlayer : BlockDisguise.enabledFor.keySet()){
             e.getPlayer().hidePlayer(p.getServer().getPlayer(sPlayer));
         }
     }
     
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerQuit(PlayerQuitEvent e){
-        BlockDisguise.lastUpdate.remove(e.getPlayer());
+        BlockDisguise.lastUpdate.remove(e.getPlayer().getName());
         BlockDisguise.enabledFor.remove(e.getPlayer().getName());
     }
     

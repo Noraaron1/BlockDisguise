@@ -10,5 +10,3 @@ verbose-logging: false
 
 # Whether to render the player invisible while the block is shown
 make-players-invisible: true
-
-# Whether to 
