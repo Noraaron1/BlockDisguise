@@ -1,8 +1,13 @@
 name: BlockDisguise
 main: com.ne0nx3r0.blockdisguise.BlockDisguise
-version: '0.3.4'
+version: '1.1'
 database: false
 description: Hides you as a block!
 commands:
     bd:
       description: Block Disguise
+permissions:
+    BlockDisguise.disguise:
+      description: Allows disguising as blocks
+    BlockDisguise.vision:
+      description: Allows seeing disguised players

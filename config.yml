@@ -1,6 +1,6 @@
 # How often (in ticks) to update the hidden block's location
 # 20 ticks / second
-update-interval: 5
+update-interval: 10
 
 # Blocks away a player should be before they no longer receive updates
 update-distance: 170
@@ -10,3 +10,9 @@ verbose-logging: false
 
 # Whether to render the player invisible while the block is shown
 make-players-invisible: true
+
+# Whether to undisguise a player when they attack something
+undisguise-on-pvp: true
+
+# If true, notifies any OP or user with BlockDisguise.admin about updates
+notify-about-updates: true

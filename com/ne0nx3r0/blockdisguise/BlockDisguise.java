@@ -1,125 +1,73 @@
 package com.ne0nx3r0.blockdisguise;
 
+import com.ne0nx3r0.blockdisguise.commands.BlockDisguiseCommandExecutor;
+import com.ne0nx3r0.blockdisguise.disguise.DisguiseManager;
+import com.ne0nx3r0.blockdisguise.listeners.BlockDisguisePlayerListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
+import net.h31ix.updater.Updater;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class BlockDisguise extends JavaPlugin{     
-    public static Map<String,Integer[]> enabledFor;
-    public static ArrayList<String> pending;
-    public static Map<String,Block> lastUpdate;   
-    public static int MAX_UPDATE_DISTANCE;
-    public static boolean MAKE_PLAYERS_INVISIBLE;
+public class BlockDisguise extends JavaPlugin
+{
+    public int MAX_UPDATE_DISTANCE;
+    public boolean MAKE_PLAYERS_INVISIBLE;
+    public boolean UNDISGUISE_ON_PVP;
+    public DisguiseManager disguiseManager;
+    public boolean UPDATE_AVAILABLE = false;
+    public String UPDATE_NAME;
     
     @Override
-    public void onEnable(){    
-        enabledFor = new HashMap<String,Integer[]>();
-        pending    = new ArrayList<String>();
-        lastUpdate = new HashMap<String,Block>();
-        
-//Load config
+    public void onEnable()
+    {
+       
+// Load config
         File configFile = new File(this.getDataFolder(), "config.yml");   
         
-        if(!configFile.exists()){
+        if(!configFile.exists())
+        {
             configFile.getParentFile().mkdirs();
             copy(this.getResource(configFile.getName()), configFile);
         }
         
         MAX_UPDATE_DISTANCE = getConfig().getInt("update-distance") ^ 2;
         MAKE_PLAYERS_INVISIBLE = getConfig().getBoolean("make-players-invisible",true);
+        UNDISGUISE_ON_PVP = getConfig().getBoolean("undisguise-on-pvp",true);
 
+// Setup managers
+        this.disguiseManager = new DisguiseManager(this);
+        
 // Setup listeners
         Bukkit.getPluginManager().registerEvents(new BlockDisguisePlayerListener(this), this);
     
         Bukkit.getPluginCommand("bd").setExecutor(new BlockDisguiseCommandExecutor(this));
-
-// Setup scheduled task
-        long lUpdateInverval = getConfig().getLong("update-interval");
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(
-                this, 
-                new hidePlayers(),
-                lUpdateInverval,
-                lUpdateInverval
-        );
         
-    }
-    
-     private static class hidePlayers implements Runnable{
-        @Override
-        public void run(){
+// Setup updater
+        if(getConfig().getBoolean("notify-about-updates"))
+        {
+            Updater updater = new Updater(
+                    this,
+                    "block-disguise",
+                    this.getFile(),
+                    Updater.UpdateType.NO_DOWNLOAD,
+                    false); // Start Updater but just do a version check
 
-            for(String sPlayer : pending){
-                Player p = Bukkit.getPlayer(sPlayer);
-                Integer[] iBlockData = enabledFor.get(sPlayer);
-
-                if(p == null || iBlockData == null){
-                    continue;
-                }
-
-                Block b = p.getLocation().getBlock();
-                Material m = Material.getMaterial(iBlockData[0]);
-
-                Block bUpdate = lastUpdate.get(p.getName());
-                Location lUpdate = null;
-                byte bdUpdate = 0;
-                Material mUpdate = null;
+            UPDATE_AVAILABLE = updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE;
+            
+            if(UPDATE_AVAILABLE)
+            {
+                UPDATE_NAME = updater.getLatestVersionString();
                 
-                if(bUpdate != null){
-                    lUpdate = bUpdate.getLocation();
-                    bdUpdate = bUpdate.getData();
-                    mUpdate = bUpdate.getType();
-                }
-                
-                if(b != null && (bUpdate == null || !b.getLocation().equals(bUpdate.getLocation()))){
-                    for(Player pHideFrom : p.getWorld().getPlayers()){
-                       if(!p.getName().equals(pHideFrom.getName()) 
-                       && p.getLocation().distanceSquared(pHideFrom.getLocation()) < MAX_UPDATE_DISTANCE){    
-
-                            pHideFrom.sendBlockChange(b.getLocation(), m, iBlockData[1].byteValue());
-
-                            if(bUpdate != null){
-                                pHideFrom.sendBlockChange(lUpdate, mUpdate, bdUpdate);
-                            }
-                        }
-                    }
-                }
-                lastUpdate.put(p.getName(),b.getLocation().getBlock());
+                getLogger().log(Level.INFO,"--------------------------------");
+                getLogger().log(Level.INFO,"    An update is available:");
+                getLogger().log(Level.INFO,"    "+UPDATE_NAME);
+                getLogger().log(Level.INFO,"--------------------------------");
             }
-            pending.clear();
         }
-    }
-    
-    @Override
-    public void onDisable(){
-    }
-
-//generic wrapper to message a player
-    public void msg(Player player, String sMessage) {
-        player.sendMessage(ChatColor.DARK_RED + "[BD] " + ChatColor.WHITE + sMessage);
-    }
-
-//Generic wrappers for console messages
-    public void log(Level level,String sMessage){
-        if(!sMessage.equals(""))
-            getLogger().log(level,sMessage);
-    }
-    public void log(String sMessage){
-        log(Level.INFO,sMessage);
-    }
-    public void error(String sMessage){
-        log(Level.WARNING,sMessage);
     }
     
 //Copies files from inside the jar
