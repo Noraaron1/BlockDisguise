@@ -54,8 +54,13 @@ public class DisguiseManager
     {
         if(this.players.containsKey(player.getName()))
         {
-            this.players.remove(player.getName());
+            DisguisedPlayer dp = this.players.remove(player.getName());
 
+            for(Player p : player.getWorld().getPlayers())
+            {
+                p.sendBlockChange(dp.lastBlock.getLocation(), dp.lastBlock.getType(), dp.lastBlock.getData());
+            }
+            
             if(plugin.MAKE_PLAYERS_INVISIBLE)
             {
                 for(Player pShowTo: plugin.getServer().getOnlinePlayers())
