@@ -87,17 +87,14 @@ public class BlockDisguisePlayerListener implements Listener
             }
         }
     }
-
+/* needs work
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerKicked(PlayerKickEvent e)
     {
-        if(e.getReason().equals(e.getPlayer().getName()+" was kicked for floating too long!"))
+        if(e.getReason().equals("Flying is not enabled on this server")
+        && plugin.disguiseManager.isDisguisedBlock(e.getPlayer().getLocation().subtract(0,1,0).getBlock()))
         {
-            if(plugin.disguiseManager.isDisguisedPlayer(e.getPlayer().getLocation().subtract(0,1,0).getBlock()))
-            {
-                System.out.println("cancelling flying kick, player standing on BD block");
-                e.setCancelled(true);
-            }
+            e.setCancelled(true);
         }
-    }
+    }*/
 }

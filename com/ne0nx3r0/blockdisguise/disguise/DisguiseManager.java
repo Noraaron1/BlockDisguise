@@ -3,6 +3,7 @@ package com.ne0nx3r0.blockdisguise.disguise;
 import com.ne0nx3r0.blockdisguise.BlockDisguise;
 import java.util.HashMap;
 import java.util.Map;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -83,7 +84,7 @@ public class DisguiseManager
         }
     }
 
-    public boolean isDisguisedPlayer(Block block)
+    public boolean isDisguisedBlock(Block block)
     {
         for(DisguisedPlayer dp : this.players.values())
         {
