@@ -15,6 +15,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class BlockDisguisePlayerListener implements Listener
@@ -32,7 +33,7 @@ public class BlockDisguisePlayerListener implements Listener
         plugin.disguiseManager.hideDisguisedPlayersFrom(e.getPlayer());
         
         if(plugin.UPDATE_AVAILABLE
-        && (e.getPlayer().isOp() || e.getPlayer().hasPermission("BlockDisguise.admin")))
+        && (e.getPlayer().hasPermission("BlockDisguise.admin")))
         {
             e.getPlayer().sendMessage(ChatColor.DARK_RED + "[BD] " 
                 + ChatColor.WHITE + "An update is available: "+plugin.UPDATE_NAME);
@@ -83,6 +84,19 @@ public class BlockDisguisePlayerListener implements Listener
             if(eAttacker instanceof Player)
             {
                 plugin.disguiseManager.undisguise((Player) eAttacker);
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onPlayerKicked(PlayerKickEvent e)
+    {
+        if(e.getReason().equals(e.getPlayer().getName()+" was kicked for floating too long!"))
+        {
+            if(plugin.disguiseManager.isDisguisedPlayer(e.getPlayer().getLocation().subtract(0,1,0).getBlock()))
+            {
+                System.out.println("cancelling flying kick, player standing on BD block");
+                e.setCancelled(true);
             }
         }
     }

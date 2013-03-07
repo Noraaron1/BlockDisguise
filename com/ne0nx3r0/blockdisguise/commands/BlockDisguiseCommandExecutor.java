@@ -57,16 +57,16 @@ public class BlockDisguiseCommandExecutor implements CommandExecutor {
                 catch(Exception e)
                 {
                     material = Material.matchMaterial(args[0]);
-
-                    if(material == null || !material.isBlock())
-                    {
-                        msg(cs,ChatColor.RED+"'"+args[0]+"' is not a valid block!");
-                        
-                        msg(cs,"(hint: diamond_block vs diamond)");
-                        
-                        return true;
-                    } 
                 }
+
+                if(material == null || !material.isBlock())
+                {
+                    msg(cs,ChatColor.RED+"'"+args[0]+"' is not a valid block!");
+
+                    msg(cs,"(hint: diamond_block vs diamond)");
+
+                    return true;
+                } 
                 
                 byte blockData = 0;
                 

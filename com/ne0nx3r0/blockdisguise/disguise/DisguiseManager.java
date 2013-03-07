@@ -4,6 +4,7 @@ import com.ne0nx3r0.blockdisguise.BlockDisguise;
 import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 public class DisguiseManager
@@ -80,5 +81,17 @@ public class DisguiseManager
                 player.hidePlayer(plugin.getServer().getPlayer(dp.playerName));
             }
         }
+    }
+
+    public boolean isDisguisedPlayer(Block block)
+    {
+        for(DisguisedPlayer dp : this.players.values())
+        {
+            if(dp.lastBlock.equals(block))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

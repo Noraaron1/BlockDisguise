@@ -28,7 +28,10 @@ class hidePlayers implements Runnable
             {
                 for(Player pHideFrom : pDisguisedPlayer.getWorld().getPlayers())
                 {
-                    pHideFrom.sendBlockChange(pDisguisedPlayer.getLocation(), disguisedPlayer.material, disguisedPlayer.blockData);
+                    if(!pHideFrom.equals(pDisguisedPlayer))
+                    {
+                        pHideFrom.sendBlockChange(pDisguisedPlayer.getLocation(), disguisedPlayer.material, disguisedPlayer.blockData);
+                    }
                 }
                 
                 disguisedPlayer.lastBlock = pDisguisedPlayer.getLocation().getBlock();
