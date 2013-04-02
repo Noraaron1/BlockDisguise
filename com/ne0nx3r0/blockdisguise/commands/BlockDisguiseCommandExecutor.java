@@ -59,6 +59,14 @@ public class BlockDisguiseCommandExecutor implements CommandExecutor {
                     material = Material.matchMaterial(args[0]);
                 }
 
+                if(!plugin.ALLOWED_BLOCKS.contains(material.getId())
+                && !cs.hasPermission("BlockDisguise.allowAllBlocks"))
+                {
+                    msg(cs,ChatColor.RED+"You are not allowed to disguise as '"+args[0]+"'!");
+
+                    return true;
+                }
+                
                 if(material == null || !material.isBlock())
                 {
                     msg(cs,ChatColor.RED+"'"+args[0]+"' is not a valid block!");
@@ -67,7 +75,7 @@ public class BlockDisguiseCommandExecutor implements CommandExecutor {
 
                     return true;
                 } 
-                
+
                 byte blockData = 0;
                 
                 if(args.length > 1)

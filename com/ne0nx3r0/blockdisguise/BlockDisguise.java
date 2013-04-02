@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.logging.Level;
 import net.h31ix.updater.Updater;
 import org.bukkit.Bukkit;
@@ -20,11 +21,11 @@ public class BlockDisguise extends JavaPlugin
     public DisguiseManager disguiseManager;
     public boolean UPDATE_AVAILABLE = false;
     public String UPDATE_NAME;
+    public List<Integer> ALLOWED_BLOCKS;
     
     @Override
     public void onEnable()
     {
-       
 // Load config
         File configFile = new File(this.getDataFolder(), "config.yml");   
         
@@ -37,10 +38,11 @@ public class BlockDisguise extends JavaPlugin
         MAX_UPDATE_DISTANCE = getConfig().getInt("update-distance") ^ 2;
         MAKE_PLAYERS_INVISIBLE = getConfig().getBoolean("make-players-invisible",true);
         UNDISGUISE_ON_PVP = getConfig().getBoolean("undisguise-on-pvp",true);
-
+        ALLOWED_BLOCKS = getConfig().getIntegerList("allowed-blocks");
+        
 // Setup managers
         this.disguiseManager = new DisguiseManager(this);
-        
+
 // Setup listeners
         Bukkit.getPluginManager().registerEvents(new BlockDisguisePlayerListener(this), this);
     
