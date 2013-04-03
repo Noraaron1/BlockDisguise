@@ -1,19 +1,25 @@
 package com.ne0nx3r0.blockdisguise;
 
+import com.ne0nx3r0.blockdisguise.api.BlockDisguiseApi;
 import com.ne0nx3r0.blockdisguise.commands.BlockDisguiseCommandExecutor;
 import com.ne0nx3r0.blockdisguise.disguise.DisguiseManager;
 import com.ne0nx3r0.blockdisguise.listeners.BlockDisguisePlayerListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.h31ix.updater.Updater;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class BlockDisguise extends JavaPlugin
+public class BlockDisguise extends JavaPlugin implements BlockDisguiseApi
 {
     public int MAX_UPDATE_DISTANCE;
     public boolean MAKE_PLAYERS_INVISIBLE;
@@ -74,8 +80,9 @@ public class BlockDisguise extends JavaPlugin
     
 //Copies files from inside the jar
     private void copy(InputStream in, File file) {
+        OutputStream out = null;
         try {
-            OutputStream out = new FileOutputStream(file);
+            out = new FileOutputStream(file);
             byte[] buf = new byte[1024];
             int len;
             while((len=in.read(buf))>0){
@@ -83,8 +90,39 @@ public class BlockDisguise extends JavaPlugin
             }
             out.close();
             in.close();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+        catch (IOException ex)
+        {
+            Logger.getLogger(BlockDisguise.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally
+        {
+            try
+            {
+                out.close();
+            }
+            catch (IOException ex)
+            {
+                Logger.getLogger(BlockDisguise.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @Override
+    public boolean isDisguised(Player p)
+    {
+        return this.disguiseManager.isDisguised(p);
+    }
+
+    @Override
+    public void disguisePlayer(Player p, Material material, byte blockData)
+    {
+        this.disguiseManager.disguise(p, material, blockData);
+    }
+
+    @Override
+    public void undisguisePlayer(Player p)
+    {
+        this.disguiseManager.undisguise(p);
     }
 }
