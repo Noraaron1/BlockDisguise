@@ -125,4 +125,10 @@ public class BlockDisguise extends JavaPlugin implements BlockDisguiseApi
     {
         this.disguiseManager.undisguise(p);
     }
+
+    @Override
+    public void disguisePlayer(Player p, Material material)
+    {
+        this.disguiseManager.disguise(p, material, (byte) 0);
+    }
 }

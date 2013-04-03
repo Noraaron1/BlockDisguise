@@ -7,6 +7,8 @@ public interface BlockDisguiseApi
 {
     public boolean isDisguised(Player p);
     
+    public void disguisePlayer(Player p, Material material);
+    
     public void disguisePlayer(Player p, Material material, byte blockData);
     
     public void undisguisePlayer(Player p);
