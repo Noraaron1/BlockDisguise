@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +28,7 @@ public class BlockDisguise extends JavaPlugin implements BlockDisguiseApi
     public DisguiseManager disguiseManager;
     public boolean UPDATE_AVAILABLE = false;
     public String UPDATE_NAME;
-    public List<Integer> ALLOWED_BLOCKS;
+    public List<Integer> BLACKLISTED_BLOCKS;
     
     @Override
     public void onEnable()
@@ -41,10 +42,50 @@ public class BlockDisguise extends JavaPlugin implements BlockDisguiseApi
             copy(this.getResource(configFile.getName()), configFile);
         }
         
+        if(this.getConfig().getInt("version",1) < 2)
+        {
+            try
+            {
+                if(configFile.delete())
+                {
+                        System.out.println("Deleting old config file...");
+                }
+                else
+                {
+                        System.out.println("Unable to delete config.yml, you should do this manually and then reload the plugin.");
+                }
+            
+                copy(this.getResource(configFile.getName()), configFile);
+
+                this.reloadConfig();
+
+                System.out.println("config.yml reloaded, new version: "+this.getConfig().getInt("version"));
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+        
         MAX_UPDATE_DISTANCE = getConfig().getInt("update-distance") ^ 2;
         MAKE_PLAYERS_INVISIBLE = getConfig().getBoolean("make-players-invisible",true);
         UNDISGUISE_ON_PVP = getConfig().getBoolean("undisguise-on-pvp",true);
-        ALLOWED_BLOCKS = getConfig().getIntegerList("allowed-blocks");
+
+        BLACKLISTED_BLOCKS = new ArrayList<Integer>();
+        
+        for(String sMaterial : getConfig().getStringList("blacklisted-blocks"))
+        {
+            Material m = Material.matchMaterial(sMaterial);
+            
+            if(m != null)
+            {
+                BLACKLISTED_BLOCKS.add(m.getId());
+            }
+            else
+            {
+                this.getLogger().log(Level.INFO, "{0} is not a valid material!", sMaterial);
+            }
+        }
         
 // Setup managers
         this.disguiseManager = new DisguiseManager(this);

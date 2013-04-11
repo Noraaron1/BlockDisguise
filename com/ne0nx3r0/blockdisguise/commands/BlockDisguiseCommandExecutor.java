@@ -26,7 +26,7 @@ public class BlockDisguiseCommandExecutor implements CommandExecutor {
             return true;
         }
         
-        if(cs.hasPermission("BlockDisguise.disguise"))
+        if(cs.hasPermission("BlockDisguise.disguise") || cs.isOp())
         {
             Player player = (Player) cs;
             
@@ -58,14 +58,6 @@ public class BlockDisguiseCommandExecutor implements CommandExecutor {
                 {
                     material = Material.matchMaterial(args[0]);
                 }
-
-                if(!plugin.ALLOWED_BLOCKS.contains(material.getId())
-                && !cs.hasPermission("BlockDisguise.allowAllBlocks"))
-                {
-                    msg(cs,ChatColor.RED+"You are not allowed to disguise as '"+args[0]+"'!");
-
-                    return true;
-                }
                 
                 if(material == null || !material.isBlock())
                 {
@@ -75,6 +67,14 @@ public class BlockDisguiseCommandExecutor implements CommandExecutor {
 
                     return true;
                 } 
+                
+                if(plugin.BLACKLISTED_BLOCKS.contains(material.getId())
+                && !cs.hasPermission("BlockDisguise.allowAllBlocks"))
+                {
+                    msg(cs,ChatColor.RED+"You are not allowed to disguise as '"+args[0]+"'!");
+
+                    return true;
+                }
 
                 byte blockData = 0;
                 
