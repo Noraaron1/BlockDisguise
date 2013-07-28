@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -44,7 +45,31 @@ public class BlockDisguisePlayerListener implements Listener
     {
         plugin.disguiseManager.undisguise(e.getPlayer());
     }
-    
+    // needs tinkering
+    /*
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent e)
+    {
+        
+        if(e.getPlayer().getName().equalsIgnoreCase("Ne0nx3r0"))
+        {
+            e.getPlayer().sendMessage("----- ACTION -----");
+            e.getPlayer().sendMessage("Block:"+e.getClickedBlock().toString());
+        }
+
+        if(1 == 1)
+        {
+            return;
+        }
+        
+        if(e.hasBlock() && plugin.disguiseManager.isDisguisedBlock(e.getClickedBlock()))
+        {
+            e.setCancelled(true);
+            
+            //plugin.disguiseManager.
+        }
+    }*/
+
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e)
     {
