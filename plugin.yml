@@ -20,12 +20,8 @@ permissions:
       description: Allows disguising as blocks
       default: op
     BlockDisguise.admin:
-      description: disguise others, disguise self, disguise as all blocks.
+      description: Shows when updates are available
       default: op
-      children:
-        BlockDisguise.disguise: true
-        BlockDisguise.allowAllBlocks: true
-        BlockDisguise.disguiseOther: true
     BlockDisguise.vision:
       description: Allows seeing disguised players
       default: false
