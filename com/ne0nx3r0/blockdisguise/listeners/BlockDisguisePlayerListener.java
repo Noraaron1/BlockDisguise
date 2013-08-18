@@ -45,30 +45,22 @@ public class BlockDisguisePlayerListener implements Listener
     {
         plugin.disguiseManager.undisguise(e.getPlayer());
     }
+    
     // needs tinkering
-    /*
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e)
     {
-        
-        if(e.getPlayer().getName().equalsIgnoreCase("Ne0nx3r0"))
+        if(plugin.UNDISGUISE_ON_CLICK && e.hasBlock())
         {
-            e.getPlayer().sendMessage("----- ACTION -----");
-            e.getPlayer().sendMessage("Block:"+e.getClickedBlock().toString());
-        }
-
-        if(1 == 1)
-        {
-            return;
-        }
-        
-        if(e.hasBlock() && plugin.disguiseManager.isDisguisedBlock(e.getClickedBlock()))
-        {
-            e.setCancelled(true);
+            Player pFound = plugin.disguiseManager.undisguiseIfDisguised(e.getClickedBlock());
             
-            //plugin.disguiseManager.
+            if(pFound != null)
+            {
+                e.getPlayer().sendMessage(ChatColor.DARK_RED + "[BD] " + ChatColor.WHITE + "You have discovered a disguised player!");
+                pFound.sendMessage(ChatColor.DARK_RED + "[BD] " + ChatColor.WHITE + "You have been discovered!");
+            }
         }
-    }*/
+    }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e)

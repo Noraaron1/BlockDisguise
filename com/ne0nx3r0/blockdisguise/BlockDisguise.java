@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import net.h31ix.updater.Updater;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,6 +26,7 @@ public class BlockDisguise extends JavaPlugin implements BlockDisguiseApi
     public int MAX_UPDATE_DISTANCE;
     public boolean MAKE_PLAYERS_INVISIBLE;
     public boolean UNDISGUISE_ON_PVP;
+    public boolean UNDISGUISE_ON_CLICK;
     public DisguiseManager disguiseManager;
     public boolean UPDATE_AVAILABLE = false;
     public String UPDATE_NAME;
@@ -70,6 +72,7 @@ public class BlockDisguise extends JavaPlugin implements BlockDisguiseApi
         MAX_UPDATE_DISTANCE = getConfig().getInt("update-distance") ^ 2;
         MAKE_PLAYERS_INVISIBLE = getConfig().getBoolean("make-players-invisible",true);
         UNDISGUISE_ON_PVP = getConfig().getBoolean("undisguise-on-pvp",true);
+        UNDISGUISE_ON_CLICK = getConfig().getBoolean("undisguise-on-click",true);
 
         BLACKLISTED_BLOCKS = new ArrayList<Integer>();
         

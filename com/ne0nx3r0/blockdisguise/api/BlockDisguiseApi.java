@@ -1,6 +1,7 @@
 package com.ne0nx3r0.blockdisguise.api;
 
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 public interface BlockDisguiseApi

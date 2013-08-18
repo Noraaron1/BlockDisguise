@@ -16,6 +16,9 @@ make-players-invisible: true
 # Whether to undisguise a player when they attack something
 undisguise-on-pvp: true
 
+# If true, undisguises disguised players when they are clicked
+undisguise-on-click: true
+
 # If true, notifies any OP or user with BlockDisguise.admin about updates
 notify-about-updates: true
 

@@ -3,6 +3,7 @@ package com.ne0nx3r0.blockdisguise.disguise;
 import com.ne0nx3r0.blockdisguise.BlockDisguise;
 import java.util.HashMap;
 import java.util.Map;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -96,5 +97,21 @@ public class DisguiseManager
             }
         }
         return false;
+    }
+
+    public Player undisguiseIfDisguised(Block block)
+    {
+        for(DisguisedPlayer dp : this.players.values())
+        {
+            if(dp.lastBlock.equals(block))
+            {
+                Player pFound = Bukkit.getPlayer(dp.playerName);
+                
+                this.undisguise(pFound);
+                
+                return pFound;
+            }
+        }
+        return null;
     }
 }
