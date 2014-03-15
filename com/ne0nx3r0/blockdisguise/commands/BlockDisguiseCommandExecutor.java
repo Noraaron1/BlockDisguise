@@ -178,7 +178,7 @@ public class BlockDisguiseCommandExecutor implements CommandExecutor {
         
         // Verify material not blacklisted
         if((plugin.BLACKLISTED_BLOCKS.contains(m.getId()) && !cs.hasPermission("BlockDisguise.allowAllBlocks"))
-        || (plugin.getConfig().getBoolean("use_individual_permissions") && !cs.hasPermission("BlockDisguise.disguise."+m.name()) && !cs.hasPermission("BlockDisguise.disguise.*")))
+        || (plugin.getConfig().getBoolean("use_individual_permissions",false) && !cs.hasPermission("BlockDisguise.disguise."+m.name()) && !cs.hasPermission("BlockDisguise.disguise.*")))
         {
             msg(cs,ChatColor.RED+"You are not allowed to disguise as '"+args[0]+"'!");
 
