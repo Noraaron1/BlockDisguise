@@ -5,7 +5,6 @@ import com.ne0nx3r0.blockdisguise.commands.BlockDisguiseCommandExecutor;
 import com.ne0nx3r0.blockdisguise.disguise.DisguiseManager;
 import com.ne0nx3r0.blockdisguise.listeners.BlockDisguisePlayerListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,10 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.h31ix.updater.Updater;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -97,29 +94,6 @@ public class BlockDisguise extends JavaPlugin implements BlockDisguiseApi
         Bukkit.getPluginManager().registerEvents(new BlockDisguisePlayerListener(this), this);
     
         Bukkit.getPluginCommand("bd").setExecutor(new BlockDisguiseCommandExecutor(this));
-        
-// Setup updater
-        if(getConfig().getBoolean("notify-about-updates"))
-        {
-            Updater updater = new Updater(
-                    this,
-                    "block-disguise",
-                    this.getFile(),
-                    Updater.UpdateType.NO_DOWNLOAD,
-                    false); // Start Updater but just do a version check
-
-            UPDATE_AVAILABLE = updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE;
-            
-            if(UPDATE_AVAILABLE)
-            {
-                UPDATE_NAME = updater.getLatestVersionString();
-                
-                getLogger().log(Level.INFO,"--------------------------------");
-                getLogger().log(Level.INFO,"    An update is available:");
-                getLogger().log(Level.INFO,"    "+UPDATE_NAME);
-                getLogger().log(Level.INFO,"--------------------------------");
-            }
-        }
     }
     
 //Copies files from inside the jar

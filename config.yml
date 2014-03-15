@@ -19,9 +19,9 @@ undisguise-on-pvp: true
 # If true, undisguises disguised players when they are clicked
 undisguise-on-click: true
 
-# If true, notifies any OP or user with BlockDisguise.admin about updates
-notify-about-updates: true
-
 # Can be overriden with permission BlockDisguise.allowAllBlocks
 blacklisted-blocks:
   - AIR
+  
+# If true, will require player to have BlockDisguise.block.BLOCK_NAME or BlockDisguise.block.*
+use_individual_permissions: true

@@ -1,6 +1,6 @@
 name: BlockDisguise
 main: com.ne0nx3r0.blockdisguise.BlockDisguise
-version: '1.5'
+version: '1.6'
 database: false
 description: Hides you as a block!
 commands:
