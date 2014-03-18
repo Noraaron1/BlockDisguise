@@ -46,63 +46,6 @@ public class BlockDisguisePlayerListener implements Listener
         plugin.disguiseManager.undisguise(e.getPlayer());
     }
     
-    // needs tinkering
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent e)
-    {
-        if(plugin.UNDISGUISE_ON_CLICK && e.hasBlock())
-        {
-            Player pFound = plugin.disguiseManager.undisguiseIfDisguised(e.getClickedBlock());
-            
-            if(pFound != null)
-            {
-                e.getPlayer().sendMessage(ChatColor.DARK_RED + "[BD] " + ChatColor.WHITE + "You have discovered a disguised player!");
-                pFound.sendMessage(ChatColor.DARK_RED + "[BD] " + ChatColor.WHITE + "You have been discovered!");
-            }
-        }
-    }
-
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-    public void onEntityDamageByEntity(EntityDamageByEntityEvent e)
-    {
-        if(plugin.UNDISGUISE_ON_PVP)
-        {
-            Entity eAttacker = e.getDamager();
-
-            if(!(eAttacker instanceof Player))
-            {
-                if(eAttacker instanceof Arrow)
-                {
-                    eAttacker = ((Arrow) eAttacker).getShooter();
-                }
-                else if(eAttacker instanceof ThrownPotion)
-                {
-                    eAttacker = ((ThrownPotion) eAttacker).getShooter();
-                }
-                else if(eAttacker instanceof Snowball)
-                {
-                    eAttacker = ((Snowball) eAttacker).getShooter();
-                }
-                else if(eAttacker instanceof Egg)
-                {
-                    eAttacker = ((Egg) eAttacker).getShooter();
-                }
-                else if(eAttacker instanceof Fireball)
-                {
-                    eAttacker = ((Fireball) eAttacker).getShooter();
-                }
-                else if(eAttacker instanceof SmallFireball)
-                {
-                    eAttacker = ((SmallFireball) eAttacker).getShooter();
-                }
-            }
-
-            if(eAttacker instanceof Player)
-            {
-                plugin.disguiseManager.undisguise((Player) eAttacker);
-            }
-        }
-    }
 /* needs work
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerKicked(PlayerKickEvent e)
